@@ -1,0 +1,104 @@
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body{
+                margin: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+
+            }
+            body{
+                background-color: #f0f0fa;
+            }
+            #dragElement{
+                width:100px;
+                height: 100px;
+                cursor: move;
+                border-radius: 10px;
+                user-select: none;
+                padding: 20px;
+            }
+            #dropArea{
+                width: 830px;
+                height: 550px;
+                border: 2px dashed #2ecc71;
+                margin: 20px auto;
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 15px;
+                background-color: #ecf0f1;
+                overflow : hidden;
+            }
+            #dropArea:hover{
+                background-color: #d5d8dc;
+            }
+            #dropArea p {
+                margin: 0;
+
+            }
+            #dropArea img{
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+            .watermark{
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                font-size: 18px;
+                color: blue;
+                z-index: 0;
+                pointer-events: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="dragElement" draggable="true">
+            <img src="flower.jpg" alt="Drag me" width="100" height="100">
+        </div>
+        <div id="dropArea" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <p>Drop Here</p>
+        </div>
+        
+        <script>
+            var draggedElement;
+            function allowDrop(event){
+                event.preventDefault();
+                var dropArea = event.target;
+                dropArea.classList.add("highlight");
+            }
+            function drag(event){
+                draggedElement = event.target;
+            }
+            function drop(event){
+                event.preventDefault();
+                var dropArea = event.target;
+                if(dropArea.id == "dropArea"){
+                    dropArea.innerHTML = "";
+                    dropArea.appendChild(draggedElement);
+
+                    var image = draggedElement.querySelector('img');
+                    var imgwidth = image.width;
+                    var imgheight = image.height;
+
+                    dropArea.style.width = imgwidth+'px';
+                    dropArea.style.height= imgheight+'px';
+
+                    image.style.width = '100%';
+                    image.style.height='100%';
+                    image.style.objectFit = 'contain';
+                }
+                dropArea.classList.remove("highlight");
+            }
+            document.getElementById("dragElement").addEventListener("dragstart",drag);
+        </script>
+        <div class="watermark">J.KUSUMA 22BQ1A4264</div>
+    </body>
+</html>
